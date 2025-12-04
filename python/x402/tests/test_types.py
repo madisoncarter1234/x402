@@ -160,3 +160,19 @@ def test_x402_headers_serde():
     expected = {"x_payment": "test-payment"}
     assert original.model_dump(by_alias=True) == expected
     assert X402Headers(**expected) == original
+
+
+def test_payment_requirements_empty_max_amount_required():
+    """Test that empty string is valid for max_amount_required (issue #596)."""
+    req = PaymentRequirements(
+        scheme="exact",
+        network="base",
+        max_amount_required="",
+        resource="https://example.com/resource",
+        description="Test",
+        mime_type="",
+        pay_to="",
+        max_timeout_seconds=60,
+        asset="0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    )
+    assert req.max_amount_required == ""

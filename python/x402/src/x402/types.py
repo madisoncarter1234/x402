@@ -114,6 +114,8 @@ class PaymentRequirements(BaseModel):
 
     @field_validator("max_amount_required")
     def validate_max_amount_required(cls, v):
+        if v == "":
+            return v
         try:
             int(v)
         except ValueError:
